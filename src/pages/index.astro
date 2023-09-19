@@ -1,0 +1,41 @@
+---
+// Any JS written here in the Forntmatter will be rendered server side
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/Button';
+
+
+// const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3';
+// // const key = import.meta.env.YOUTUBE_API_KEY;
+// const API_KEY = 'AIzaSyAf7tTu7IqkaxfRz3Wdem-bUsrq7oK9XjA';
+
+const res = await fetch(  'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL4-IK0AVhVjNcjfYDQEseNxuarDjSEdZK&key=AIzaSyAf7tTu7IqkaxfRz3Wdem-bUsrq7oK9XjA'
+);
+const data = await res.json();
+data.items.map(item => {console.log(item.id)}); 
+// console.log(data.items);
+
+---
+
+<MainLayout title="Home" >
+	<!-- {console.log('data: ' + print)} -->
+	<h2>Hello Fren <span>oi.</span> </h2>
+	<p id="paragraph"></p>
+	<!-- the button is a React component, but the JS isn't loaded by default, so it needs client:load for interactivity -->
+	<Button client:load/>
+	<!-- <p>{print}</p> -->
+</MainLayout>
+
+<style is:global lang="scss">
+	h2 {
+		color: teal;
+		span {
+			color: red
+		}
+	}
+</style>
+
+<!-- Any JS written in <script> tags is going to be rendered on the client side (browser) -->
+<script>
+	const p = document.querySelector('#paragraph');
+	p.textContent = "This is added with JavaScript client side."
+</script>
