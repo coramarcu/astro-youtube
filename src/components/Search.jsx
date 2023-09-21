@@ -3,20 +3,17 @@ import { useState } from "react";
 export default function Search() {
   let [searchTerm, setSearchTerm] = useState();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     let endpoint = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&${searchTerm}&key=AIzaSyAf7tTu7IqkaxfRz3Wdem-bUsrq7oK9XjA`;
 
-    fetch(endpoint)
-      .then((res) => res.body)
-      .then((body) => body.getReader())
-      .then((reader) => {
-        reader
-          .read()
-          .then(({ value }) => new TextDecoder().decode(value))
-          .then((value) => console.log(value));
-      });
+    const res = await fetch(endpoint);
+    const body = res.body;
+    const reader = body.getReader();
+    const value = (await reader.read()).value;
+    const decoder = new TextDecoder();
+    const data = decoder.decode(value);
   }
 
   function handleChange(e) {
