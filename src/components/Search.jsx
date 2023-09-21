@@ -8,10 +8,15 @@ export default function Search() {
 
     let endpoint = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelType=any&${searchTerm}&key=AIzaSyAf7tTu7IqkaxfRz3Wdem-bUsrq7oK9XjA`;
 
-    const data = fetch(endpoint).then((response) => {
-      response.json();
-      console.log(response);
-    });
+    fetch(endpoint)
+      .then((res) => res.body)
+      .then((body) => body.getReader())
+      .then((reader) => {
+        reader
+          .read()
+          .then(({ value }) => new TextDecoder().decode(value))
+          .then((value) => console.log(value));
+      });
   }
 
   function handleChange(e) {
