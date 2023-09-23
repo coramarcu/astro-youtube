@@ -1,0 +1,18 @@
+---
+const response = await fetch("http://localhost:4321/api/data.json")
+const data = await response.json();
+import type { responseData } from "./api/data.json";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout>
+    <h1>Astro Static API</h1>
+    {
+        data.map((item: responseData) => (
+            <ul>
+                <li>Name: {item.name}</li>
+                <li>URL: {item.url}</li>
+            </ul>
+        ))
+    }
+</MainLayout>
